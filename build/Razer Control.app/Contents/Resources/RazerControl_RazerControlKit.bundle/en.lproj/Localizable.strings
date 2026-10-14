@@ -1,0 +1,107 @@
+/* Navigation Items */
+"nav_dashboard" = "Dashboard";
+"nav_keyboard" = "Keyboard Visualizer";
+"nav_lighting" = "Lighting Studio";
+"nav_remapping" = "Key Remapping";
+"nav_macros" = "Macro Studio";
+"nav_profiles" = "Profiles";
+"nav_settings" = "Settings";
+"nav_diagnostics" = "Diagnostics";
+
+/* Dashboard */
+"dash_title" = "Dashboard";
+"dash_status_connected" = "Keyboard Connected";
+"dash_status_disconnected" = "Keyboard Disconnected";
+"dash_status_reconnect_desc" = "Please connect your Razer Ornata V3 X keyboard via USB.";
+"dash_device_info" = "Device Information";
+"dash_model" = "Model";
+"dash_serial" = "Serial Number";
+"dash_firmware" = "Firmware Version";
+"dash_layout" = "Physical Layout";
+"dash_active_profile" = "Active Profile";
+"dash_hardware_caps" = "Verified Hardware Capabilities";
+"dash_permissions_title" = "Required macOS Permissions";
+"dash_permission_acc" = "Accessibility Permission";
+"dash_permission_input" = "Input Monitoring Permission";
+"dash_permission_granted" = "Granted";
+"dash_permission_needed" = "Action Required";
+"dash_permission_grant_btn" = "Grant Access";
+"dash_quick_lighting" = "Quick Lighting Control";
+"dash_brightness" = "Brightness";
+
+/* Lighting Studio */
+"lighting_title" = "Lighting Studio";
+"lighting_single_zone_note" = "Single-Zone RGB Lighting — Razer Ornata V3 X features unified backlighting across the entire keyboard.";
+"lighting_effect" = "Lighting Effect";
+"lighting_primary_color" = "Primary Color";
+"lighting_secondary_color" = "Secondary Color";
+"lighting_brightness" = "Backlight Brightness";
+"lighting_wave_dir" = "Wave Direction";
+"lighting_dir_left" = "Left";
+"lighting_dir_right" = "Right";
+"lighting_indicator_leds" = "Hardware Indicator LEDs";
+"lighting_game_led" = "Game Mode Indicator ('G')";
+"lighting_macro_led" = "Macro Mode Indicator ('M')";
+"lighting_apply_btn" = "Apply to Keyboard";
+"lighting_applied_success" = "Lighting settings successfully updated on physical keyboard.";
+"lighting_reset_btn" = "Reset";
+
+/* Key Remapping */
+"remap_title" = "Key Remapping";
+"remap_desc" = "Create and customize software-based key assignments. Remappings run seamlessly while Razer Control is active.";
+"remap_add_btn" = "Add Mapping";
+"remap_source_key" = "Source Key";
+"remap_action_type" = "Action Type";
+"remap_target_key" = "Target Key";
+"remap_modifiers" = "Modifiers";
+"remap_save" = "Save Mapping";
+"remap_cancel" = "Cancel";
+"remap_delete" = "Delete";
+"remap_no_mappings" = "No key mappings configured for this profile.";
+
+/* Macro Studio */
+"macro_title" = "Macro Studio";
+"macro_desc" = "Record, configure, and execute automated keystroke sequences with configurable delays and safe playback.";
+"macro_new_btn" = "New Macro";
+"macro_record_btn" = "Record Sequence";
+"macro_stop_record_btn" = "Stop Recording";
+"macro_play_btn" = "Test Playback";
+"macro_stop_btn" = "Stop Playback";
+"macro_repeat_count" = "Repeat Count";
+"macro_add_event" = "Add Event";
+"macro_event_delay" = "Delay (ms)";
+"macro_event_keydown" = "Key Down";
+"macro_event_keyup" = "Key Up";
+"macro_test_field_placeholder" = "Click here to test your macro output safely...";
+
+/* Profiles */
+"profiles_title" = "Profile Management";
+"profiles_desc" = "Manage local configurations for different workflows and games.";
+"profiles_new_btn" = "Create Profile";
+"profiles_dup_btn" = "Duplicate";
+"profiles_del_btn" = "Delete";
+"profiles_export_btn" = "Export JSON";
+"profiles_import_btn" = "Import JSON";
+"profiles_link_app" = "Link to Application";
+"profiles_name_placeholder" = "Profile Name";
+
+/* Settings */
+"settings_title" = "Settings";
+"settings_appearance" = "Appearance & Theme";
+"settings_theme" = "Theme";
+"settings_language" = "Language";
+"settings_launch_login" = "Launch Razer Control at Login";
+"settings_start_minimized" = "Start Minimized in Menu Bar";
+"settings_auto_profile" = "Automatic Profile Switching by Active Application";
+"settings_reset_btn" = "Reset All Settings to Factory Defaults";
+"settings_about" = "About Razer Control";
+"settings_version" = "Version";
+"settings_architecture" = "Target Architecture";
+"settings_native_notice" = "Native Intel & Apple Silicon macOS utility. Zero third-party cloud dependencies.";
+
+/* Diagnostics */
+"diag_title" = "Hardware Diagnostics";
+"diag_desc" = "Real-time communication telemetry, USB packets, and system events.";
+"diag_clear" = "Clear Log";
+"diag_export" = "Export Diagnostic Report";
+"diag_test_comm" = "Test Device Communication";

@@ -1,0 +1,107 @@
+/* Navigasyon Öğeleri */
+"nav_dashboard" = "Kontrol Paneli";
+"nav_keyboard" = "Klavye Görselleştirici";
+"nav_lighting" = "Işık Stüdyosu";
+"nav_remapping" = "Tuş Eşleme";
+"nav_macros" = "Makro Stüdyosu";
+"nav_profiles" = "Profiller";
+"nav_settings" = "Ayarlar";
+"nav_diagnostics" = "Tanılama";
+
+/* Kontrol Paneli */
+"dash_title" = "Kontrol Paneli";
+"dash_status_connected" = "Klavye Bağlı";
+"dash_status_disconnected" = "Klavye Bağlı Değil";
+"dash_status_reconnect_desc" = "Lütfen Razer Ornata V3 X klavyenizi USB üzerinden bağlayın.";
+"dash_device_info" = "Cihaz Bilgileri";
+"dash_model" = "Model";
+"dash_serial" = "Seri Numarası";
+"dash_firmware" = "Yazılım Sürümü";
+"dash_layout" = "Fiziksel Düzen";
+"dash_active_profile" = "Aktif Profil";
+"dash_hardware_caps" = "Doğrulanmış Donanım Yetenekleri";
+"dash_permissions_title" = "Gerekli macOS İzinleri";
+"dash_permission_acc" = "Erişilebilirlik İzni";
+"dash_permission_input" = "Giriş İzleme İzni";
+"dash_permission_granted" = "İzin Verildi";
+"dash_permission_needed" = "İşlem Gerekiyor";
+"dash_permission_grant_btn" = "İzin Ver";
+"dash_quick_lighting" = "Hızlı Işık Kontrolü";
+"dash_brightness" = "Parlaklık";
+
+/* Işık Stüdyosu */
+"lighting_title" = "Işık Stüdyosu";
+"lighting_single_zone_note" = "Tek Bölgeli RGB Aydınlatma — Razer Ornata V3 X, tüm klavye boyunca birleşik aydınlatma sunar.";
+"lighting_effect" = "Işık Efekti";
+"lighting_primary_color" = "Ana Renk";
+"lighting_secondary_color" = "İkinci Renk";
+"lighting_brightness" = "Arka Işık Parlaklığı";
+"lighting_wave_dir" = "Dalga Yönü";
+"lighting_dir_left" = "Sol";
+"lighting_dir_right" = "Sağ";
+"lighting_indicator_leds" = "Donanım Gösterge LED'leri";
+"lighting_game_led" = "Oyun Modu Göstergesi ('G')";
+"lighting_macro_led" = "Makro Modu Göstergesi ('M')";
+"lighting_apply_btn" = "Klavyeye Uygula";
+"lighting_applied_success" = "Işık ayarları fiziksel klavyede başarıyla güncellendi.";
+"lighting_reset_btn" = "Sıfırla";
+
+/* Tuş Eşleme */
+"remap_title" = "Tuş Eşleme";
+"remap_desc" = "Yazılım tabanlı tuş atamaları oluşturun. Eşlemeler Razer Control etkinken kesintisiz çalışır.";
+"remap_add_btn" = "Eşleme Ekle";
+"remap_source_key" = "Kaynak Tuş";
+"remap_action_type" = "Eylem Türü";
+"remap_target_key" = "Hedef Tuş";
+"remap_modifiers" = "Değiştiriciler";
+"remap_save" = "Eşlemeyi Kaydet";
+"remap_cancel" = "İptal";
+"remap_delete" = "Sil";
+"remap_no_mappings" = "Bu profil için yapılandırılmış tuş eşlemesi yok.";
+
+/* Makro Stüdyosu */
+"macro_title" = "Makro Stüdyosu";
+"macro_desc" = "Yapılandırılabilir gecikmeler ve güvenli oynatma ile otomatik tuş dizileri kaydedin ve yürütün.";
+"macro_new_btn" = "Yeni Makro";
+"macro_record_btn" = "Diziyi Kaydet";
+"macro_stop_record_btn" = "Kaydı Durdur";
+"macro_play_btn" = "Oynatmayı Test Et";
+"macro_stop_btn" = "Oynatmayı Durdur";
+"macro_repeat_count" = "Tekrar Sayısı";
+"macro_add_event" = "Olay Ekle";
+"macro_event_delay" = "Gecikme (ms)";
+"macro_event_keydown" = "Tuşa Basıldı";
+"macro_event_keyup" = "Tuş Bırakıldı";
+"macro_test_field_placeholder" = "Makro çıktınızı güvenle test etmek için buraya tıklayın...";
+
+/* Profiller */
+"profiles_title" = "Profil Yönetimi";
+"profiles_desc" = "Farklı iş akışları ve oyunlar için yerel yapılandırmaları yönetin.";
+"profiles_new_btn" = "Profil Oluştur";
+"profiles_dup_btn" = "Çoğalt";
+"profiles_del_btn" = "Sil";
+"profiles_export_btn" = "JSON Dışa Aktar";
+"profiles_import_btn" = "JSON İçe Aktar";
+"profiles_link_app" = "Uygulamaya Bağla";
+"profiles_name_placeholder" = "Profil Adı";
+
+/* Ayarlar */
+"settings_title" = "Ayarlar";
+"settings_appearance" = "Görünüm ve Tema";
+"settings_theme" = "Tema";
+"settings_language" = "Dil";
+"settings_launch_login" = "Girişte Razer Control'ü Başlat";
+"settings_start_minimized" = "Menü Çubuğunda Küçültülmüş Olarak Başlat";
+"settings_auto_profile" = "Etkin Uygulamaya Göre Otomatik Profil Geçişi";
+"settings_reset_btn" = "Tüm Ayarları Fabrika Varsayılanlarına Sıfırla";
+"settings_about" = "Razer Control Hakkında";
+"settings_version" = "Sürüm";
+"settings_architecture" = "Hedef Mimari";
+"settings_native_notice" = "Yerel Intel ve Apple Silicon macOS yardımcı programı. Sıfır üçüncü taraf bulut bağımlılığı.";
+
+/* Tanılama */
+"diag_title" = "Donanım Tanılama";
+"diag_desc" = "Gerçek zamanlı iletişim telemetrisi, USB paketleri ve sistem olayları.";
+"diag_clear" = "Günlüğü Temizle";
+"diag_export" = "Tanılama Raporunu Dışa Aktar";
+"diag_test_comm" = "Cihaz İletişimini Test Et";
