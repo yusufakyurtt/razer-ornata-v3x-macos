@@ -95,13 +95,10 @@ Extensive physical reverse engineering was conducted on the physical Razer Ornat
 
 ## Installation & Running
 
-### Option 1: Running the Prebuilt Application Bundle
-1. Navigate to the `build/` folder.
-2. Double-click or run:
-   ```bash
-   open "build/Razer Control.app"
-   ```
-3. When prompted, grant **Accessibility** permissions in System Settings.
+### Option 1: Using the `.dmg` Installer (Recommended)
+1. Download **`Razer-Control-v1.0.0-macOS-x86_64.dmg`** from GitHub Releases.
+2. Double-click the DMG and drag **`Razer Control`** into your **`Applications`** folder.
+3. Launch the app and grant Accessibility permissions when prompted.
 
 ### Option 2: Building from Source
 Ensure Xcode Command Line Tools or full Xcode is installed:
@@ -113,11 +110,8 @@ cd razer-ornata-v3x
 # Run automated tests
 swift test
 
-# Build release application bundle
-./scripts/build_release_app.sh
-
-# Launch the app
-open "build/Razer Control.app"
+# Build release application bundle and DMG installer
+./scripts/create_dmg.sh
 ```
 
 ---
