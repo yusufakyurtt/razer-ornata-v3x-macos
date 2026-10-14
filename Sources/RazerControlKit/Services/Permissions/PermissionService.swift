@@ -18,17 +18,33 @@ public final class PermissionService: PermissionServiceProtocol, ObservableObjec
     @Published public private(set) var isInputMonitoringGranted: Bool = false
     
     private var timer: Timer?
+    private var activeObserver: NSObjectProtocol?
     
     public init() {
         checkPermissions()
-        // Periodically refresh permissions in case user changed in System Settings
-        timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
+        
+        // Refresh permissions whenever user returns to the app from System Settings
+        activeObserver = NotificationCenter.default.addObserver(
+            forName: NSApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
             self?.checkPermissions()
         }
+        
+        // Periodically refresh permissions in common modes so it never freezes
+        let t = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.checkPermissions()
+        }
+        RunLoop.main.add(t, forMode: .common)
+        self.timer = t
     }
     
     deinit {
         timer?.invalidate()
+        if let obs = activeObserver {
+            NotificationCenter.default.removeObserver(obs)
+        }
     }
     
     public func checkPermissions() {

@@ -61,6 +61,22 @@ public final class AppViewModel: ObservableObject {
     }
     
     private func setupBindings() {
+        // Forward changes from child services so views reactively update
+        discovery.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+            
+        permissions.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+            
+        profileManager.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+            
         // Sync active profile key mappings into remapping engine
         profileManager.$activeProfile
             .sink { [weak self] profile in

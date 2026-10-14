@@ -4,8 +4,32 @@ import Combine
 public final class DashboardViewModel: ObservableObject {
     public let appVM: AppViewModel
     
+    private var cancellables = Set<AnyCancellable>()
+    
     public init(appVM: AppViewModel) {
         self.appVM = appVM
+        
+        // Forward changes from appVM, discovery and permissions so SwiftUI views re-render reactively!
+        appVM.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
+            
+        appVM.discovery.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
+            
+        appVM.permissions.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
     }
     
     public var isConnected: Bool {

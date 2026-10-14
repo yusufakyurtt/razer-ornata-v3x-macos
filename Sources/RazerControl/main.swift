@@ -18,7 +18,10 @@ window.title = "Razer Control"
 window.minSize = NSSize(width: 920, height: 640)
 window.titlebarAppearsTransparent = true
 window.titleVisibility = .hidden
+window.isReleasedWhenClosed = false
 window.contentView = NSHostingView(rootView: MainView())
 window.makeKeyAndOrderFront(nil)
+
+delegate.window = window
 
 app.run()

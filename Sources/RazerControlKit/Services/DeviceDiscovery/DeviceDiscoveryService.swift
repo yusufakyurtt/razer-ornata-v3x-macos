@@ -19,6 +19,59 @@ public final class DeviceDiscoveryService: DeviceDiscoveryServiceProtocol, Obser
     public let session = RazerDeviceSession()
     private var hidManager: IOHIDManager?
     private var isRunning = false
+    public static let defaultCapabilities: [DeviceCapability] = [
+        DeviceCapability(
+            id: "single_zone_lighting",
+            name: "Single-Zone Chroma Lighting",
+            status: .supportedVerified,
+            discoveryMethod: "Extended Matrix Class 0x0F validated on physical device",
+            notes: "Static, Breathing, Spectrum Cycling, Wave, Off"
+        ),
+        DeviceCapability(
+            id: "hardware_brightness",
+            name: "Hardware Brightness Control",
+            status: .supportedVerified,
+            discoveryMethod: "Extended Matrix report (0x0F, 0x84 / 0x04)",
+            notes: "Direct 0..255 hardware level dimming"
+        ),
+        DeviceCapability(
+            id: "indicator_leds",
+            name: "Game & Macro Mode Indicators",
+            status: .supportedVerified,
+            discoveryMethod: "Standard LED report (0x03, 0x00 / 0x80)",
+            notes: "Verified toggle on physical indicator LEDs"
+        ),
+        DeviceCapability(
+            id: "software_remapping",
+            name: "Software Key Remapping",
+            status: .supportedVerified,
+            discoveryMethod: "Native CGEventTap at kCGHeadInsertEventTap",
+            notes: "Host-based remapping and shortcuts",
+            requiresPermission: true
+        ),
+        DeviceCapability(
+            id: "macro_engine",
+            name: "Macro Studio & Playback",
+            status: .supportedVerified,
+            discoveryMethod: "CoreGraphics synthetic event generation",
+            notes: "Safe keystroke sequence playback with watchdog timer",
+            requiresPermission: true
+        ),
+        DeviceCapability(
+            id: "per_key_rgb",
+            name: "Per-Key Individually Addressable RGB",
+            status: .unsupported,
+            discoveryMethod: "Hardware architectural inspection",
+            notes: "Physical hardware features single-zone translucent lighting"
+        ),
+        DeviceCapability(
+            id: "onboard_profile_memory",
+            name: "Onboard Flash Profile Memory",
+            status: .unsupported,
+            discoveryMethod: "Hardware protocol inspection",
+            notes: "Hardware lacks flash EEPROM; profiles are stored locally in macOS"
+        )
+    ]
     
     public init() {}
     
@@ -57,12 +110,15 @@ public final class DeviceDiscoveryService: DeviceDiscoveryServiceProtocol, Obser
             service.handleDeviceRemoved(device)
         }, context)
         
-        IOHIDManagerScheduleWithRunLoop(manager, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue)
+        IOHIDManagerScheduleWithRunLoop(manager, CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue)
         let openStatus = IOHIDManagerOpen(manager, IOOptionBits(kIOHIDOptionsTypeNone))
         
         if openStatus == kIOReturnSuccess {
             // Enumerate any currently connected matching devices
             refreshDeviceState()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                self?.refreshDeviceState()
+            }
         }
     }
     
@@ -122,6 +178,24 @@ public final class DeviceDiscoveryService: DeviceDiscoveryServiceProtocol, Obser
             return
         }
         
+        let initialDev = RazerDevice(
+            name: productName,
+            modelFamily: "RZ03-0447",
+            vendorId: vendorId,
+            productId: productId,
+            serialNumber: "",
+            firmwareVersion: "",
+            physicalLayout: "ANSI / ISO",
+            locationId: locationId,
+            isConnected: true,
+            capabilities: Self.defaultCapabilities
+        )
+        
+        DispatchQueue.main.async {
+            self.currentDevice = initialDev
+            self.isConnected = true
+        }
+        
         // Query verified device properties directly from hardware
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
@@ -149,60 +223,7 @@ public final class DeviceDiscoveryService: DeviceDiscoveryServiceProtocol, Obser
                 layout = "Layout Code: 0x\(String(format: "%02X", resp[8]))"
             }
             
-            // Build verified capabilities list
-            let caps: [DeviceCapability] = [
-                DeviceCapability(
-                    id: "single_zone_lighting",
-                    name: "Single-Zone Chroma Lighting",
-                    status: .supportedVerified,
-                    discoveryMethod: "Extended Matrix Class 0x0F validated on physical device",
-                    notes: "Static, Breathing, Spectrum Cycling, Wave, Off"
-                ),
-                DeviceCapability(
-                    id: "hardware_brightness",
-                    name: "Hardware Brightness Control",
-                    status: .supportedVerified,
-                    discoveryMethod: "Extended Matrix report (0x0F, 0x84 / 0x04)",
-                    notes: "Direct 0..255 hardware level dimming"
-                ),
-                DeviceCapability(
-                    id: "indicator_leds",
-                    name: "Game & Macro Mode Indicators",
-                    status: .supportedVerified,
-                    discoveryMethod: "Standard LED report (0x03, 0x00 / 0x80)",
-                    notes: "Verified toggle on physical indicator LEDs"
-                ),
-                DeviceCapability(
-                    id: "software_remapping",
-                    name: "Software Key Remapping",
-                    status: .supportedVerified,
-                    discoveryMethod: "Native CGEventTap at kCGHeadInsertEventTap",
-                    notes: "Host-based remapping and shortcuts",
-                    requiresPermission: true
-                ),
-                DeviceCapability(
-                    id: "macro_engine",
-                    name: "Macro Studio & Playback",
-                    status: .supportedVerified,
-                    discoveryMethod: "CoreGraphics synthetic event generation",
-                    notes: "Safe keystroke sequence playback with watchdog timer",
-                    requiresPermission: true
-                ),
-                DeviceCapability(
-                    id: "per_key_rgb",
-                    name: "Per-Key Individually Addressable RGB",
-                    status: .unsupported,
-                    discoveryMethod: "Hardware architectural inspection",
-                    notes: "Physical hardware features single-zone translucent lighting"
-                ),
-                DeviceCapability(
-                    id: "onboard_profile_memory",
-                    name: "Onboard Flash Profile Memory",
-                    status: .unsupported,
-                    discoveryMethod: "Hardware protocol inspection",
-                    notes: "Hardware lacks flash EEPROM; profiles are stored locally in macOS"
-                )
-            ]
+            let caps = Self.defaultCapabilities
             
             let dev = RazerDevice(
                 name: productName,

@@ -41,6 +41,17 @@ public final class LightingStudioViewModel: ObservableObject {
                 self.macroModeLED = profile.lighting.macroModeLED
             }
             .store(in: &cancellables)
+            
+        appVM.discovery.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
+    }
+    
+    public var isConnected: Bool {
+        appVM.discovery.isConnected
     }
     
     public func applyLighting() {

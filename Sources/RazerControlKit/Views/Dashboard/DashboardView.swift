@@ -1,10 +1,12 @@
 import SwiftUI
 
 public struct DashboardView: View {
+    @ObservedObject var appVM: AppViewModel
     @StateObject private var viewModel: DashboardViewModel
     @State private var quickBrightness: Double = 0.88
     
     public init(appVM: AppViewModel) {
+        self.appVM = appVM
         _viewModel = StateObject(wrappedValue: DashboardViewModel(appVM: appVM))
     }
     
@@ -26,10 +28,11 @@ public struct DashboardView: View {
                     
                     Button(action: {
                         viewModel.appVM.discovery.refreshDeviceState()
+                        viewModel.appVM.permissions.checkPermissions()
                     }) {
                         HStack(spacing: 6) {
                             Image(systemName: "arrow.clockwise")
-                            Text("Refresh Device")
+                            Text("Refresh")
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
@@ -122,73 +125,105 @@ public struct DashboardView: View {
                     .razerCard()
                 }
                 
-                // Permissions Card
-                VStack(alignment: .leading, spacing: 14) {
-                    Text(NSLocalizedString("dash_permissions_title", comment: ""))
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.primary)
-                    
-                    HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("dash_permission_acc", comment: ""))
-                                .font(.system(size: 13, weight: .medium))
-                            Text("Required for global key remapping and macro execution.")
-                                .font(.system(size: 11))
-                                .foregroundColor(.secondary)
+                // Permissions Card: items disappear dynamically when granted!
+                if !viewModel.isAccessibilityGranted || !viewModel.isInputMonitoringGranted {
+                    VStack(alignment: .leading, spacing: 14) {
+                        HStack {
+                            Text(NSLocalizedString("dash_permissions_title", comment: ""))
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(.primary)
+                            Spacer()
+                            Text("Action Required")
+                                .font(.system(size: 10, weight: .bold))
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.razerWarning.opacity(0.2))
+                                .foregroundColor(.razerWarning)
+                                .cornerRadius(4)
                         }
-                        Spacer()
-                        if viewModel.isAccessibilityGranted {
-                            Label(NSLocalizedString("dash_permission_granted", comment: ""), systemImage: "checkmark.circle.fill")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(.razerSuccess)
-                        } else {
-                            Button(action: {
-                                viewModel.requestAccessibility()
-                            }) {
-                                Text(NSLocalizedString("dash_permission_grant_btn", comment: ""))
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.black)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 4)
-                                    .background(Color.razerGreen)
-                                    .cornerRadius(4)
+                        
+                        if !viewModel.isAccessibilityGranted {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(NSLocalizedString("dash_permission_acc", comment: ""))
+                                        .font(.system(size: 13, weight: .medium))
+                                    Text("Required for global key remapping and macro execution.")
+                                        .font(.system(size: 11))
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                Button(action: {
+                                    viewModel.requestAccessibility()
+                                }) {
+                                    Text(NSLocalizedString("dash_permission_grant_btn", comment: ""))
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundColor(.black)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
+                                        .background(Color.razerGreen)
+                                        .cornerRadius(4)
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
+                        }
+                        
+                        if !viewModel.isAccessibilityGranted && !viewModel.isInputMonitoringGranted {
+                            Divider()
+                        }
+                        
+                        if !viewModel.isInputMonitoringGranted {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(NSLocalizedString("dash_permission_input", comment: ""))
+                                        .font(.system(size: 13, weight: .medium))
+                                    Text("Required to observe keyboard events when app is in the background.")
+                                        .font(.system(size: 11))
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                Button(action: {
+                                    viewModel.requestInputMonitoring()
+                                }) {
+                                    Text(NSLocalizedString("dash_permission_grant_btn", comment: ""))
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundColor(.black)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
+                                        .background(Color.razerGreen)
+                                        .cornerRadius(4)
+                                }
+                                .buttonStyle(.plain)
+                            }
                         }
                     }
-                    
-                    Divider()
-                    
-                    HStack {
+                    .razerCard()
+                } else {
+                    // Both permissions granted: compact confirmed banner
+                    HStack(spacing: 12) {
+                        Image(systemName: "checkmark.shield.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(.razerSuccess)
+                        
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("dash_permission_input", comment: ""))
-                                .font(.system(size: 13, weight: .medium))
-                            Text("Required to observe keyboard events when app is in the background.")
-                                .font(.system(size: 11))
+                            Text(NSLocalizedString("dash_permissions_title", comment: ""))
+                                .font(.system(size: 13, weight: .bold))
+                            Text(NSLocalizedString("dash_permission_granted", comment: ""))
+                                .font(.system(size: 12))
                                 .foregroundColor(.secondary)
                         }
+                        
                         Spacer()
-                        if viewModel.isInputMonitoringGranted {
-                            Label(NSLocalizedString("dash_permission_granted", comment: ""), systemImage: "checkmark.circle.fill")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(.razerSuccess)
-                        } else {
-                            Button(action: {
-                                viewModel.requestInputMonitoring()
-                            }) {
-                                Text(NSLocalizedString("dash_permission_grant_btn", comment: ""))
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.black)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 4)
-                                    .background(Color.razerGreen)
-                                    .cornerRadius(4)
-                            }
-                            .buttonStyle(.plain)
-                        }
+                        
+                        Label("Active", systemImage: "checkmark")
+                            .font(.system(size: 11, weight: .semibold))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.razerSuccess.opacity(0.15))
+                            .foregroundColor(.razerSuccess)
+                            .cornerRadius(4)
                     }
+                    .razerCard()
                 }
-                .razerCard()
                 
                 // Verified Capabilities Card
                 VStack(alignment: .leading, spacing: 14) {
